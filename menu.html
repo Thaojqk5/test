@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nestWork - Menu & Giỏ Hàng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.151);
+        }
+
+        /* Header & Search */
+        .header {
+            background-color: #868a48;
+            padding: 25px 20px;
+            color: white;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background-color: #868a48;
+            /* MÀU HEADER */
+            padding: 3px;
+        }
+
+        .brand-name h1 {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .brand-name p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .contact-header {
+            text-align: right;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .contact-header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            color: #333;
+        }
+
+        /* Tabs */
+        .nav-tabs {
+            background-color: #f8f9fa;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab-wrapper {
+            display: flex;
+            background: #e9ecef;
+            padding: 5px;
+            border-radius: 30px;
+            justify-content: space-between;
+        }
+
+        .tab {
+            padding: 10px 15px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: 0.2s;
+        }
+
+        .tab.active {
+            background: white;
+            color: black;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Menu Section */
+        .menu-section {
+            padding: 10px 15px 40px;
+        }
+
+        .category-content {
+            display: none;
+        }
+
+        .category-content.active {
+            display: block;
+        }
+
+        .category-title {
+            margin: 10px 0 15px;
+            font-weight: bold;
+            color: #333;
+            font-size: 18px;
+            border-left: 4px solid #82854B;
+            padding-left: 10px;
+        }
+
+        .food-card {
+            display: flex;
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            align-items: center;
+        }
+
+        .food-card img {
+            width: 85px;
+            height: 85px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .food-info {
+            flex: 1;
+        }
+
+        .food-info h3 {
+            font-size: 16px;
+            color: #222;
+            margin-bottom: 4px;
+        }
+
+        .food-info p {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .food-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            color: #82854B;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .btn-add {
+            background: #82854B;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Footer Liên hệ */
+        .footer-info {
+            padding: 30px 20px 120px;
+            background: #f9f9f9;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-info p {
+            font-size: 13px;
+            color: #82854B;
+            margin-bottom: 8px;
+        }
+
+        .footer-info i {
+            color: #82854B;
+            margin-right: 8px;
+            width: 15px;
+        }
+
+        /* Giỏ hàng nổi */
+        .cart-float {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            background: #82854B;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            box-shadow: 0 8px 20px rgba(0, 155, 62, 0.4);
+            cursor: pointer;
+            border: none;
+            z-index: 99;
+        }
+
+        .badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ff3b30;
+            color: white;
+            font-size: 11px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid white;
+            font-weight: bold;
+        }
+
+        /* MODAL GIỎ HÀNG */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 1000;
+        }
+
+        .cart-content {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .close-cart {
+            font-size: 24px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dotted #eee;
+        }
+
+        .cart-item-info h4 {
+            font-size: 15px;
+        }
+
+        .cart-item-info span {
+            color: #009b3e;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .btn-remove {
+            color: #ff3b30;
+            cursor: pointer;
+            font-size: 18px;
+            border: none;
+            background: none;
+        }
+
+        .cart-summary {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .table-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .btn-order {
+            width: 100%;
+            background: #73c20b;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* LOGO KHÔNG VIỀN – CÁCH 2 */
+        .logo-icon {
+            padding: 0;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .contact-header {
+            font-size: 12px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="header-top">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <img src="img/logo.jpg" alt="NestWork Logo" class="logo-img">
+                    </div>
+                    <div class="brand-name">
+                        <h1>NestWork</h1>
+                        <p>Không gian làm việc,
+                            học tập và sáng tạo</p>
+                    </div>
+                </div>
+
+                <div class="contact-header">
+                    <p><i class="fas fa-phone"></i> 0123.456.789</p>
+                    <p><i class="fas fa-envelope"></i> nestworkcaffe@gmail.com</p>
+                </div>
+            </div>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" onkeyup="searchFood()" placeholder="Tìm tên món...">
+            </div>
+        </header>
+
+        <nav class="nav-tabs">
+            <div class="tab-wrapper">
+                <div class="tab active" onclick="openTab(event, 'caphe')">☕ Cà phê</div>
+                <div class="tab" onclick="openTab(event, 'tra')">🍵 Trà</div>
+                <div class="tab" onclick="openTab(event, 'goi')">🕒 Gói</div>
+                <div class="tab" onclick="openTab(event, 'combo')">👥 Combo</div>
+            </div>
+        </nav>
+        <main class="menu-section">
+            <div id="caphe" class="category-content active">
+                <div class="category-title">Cà phê</div>
+                <div class="food-card">
+                    <img src="img/caphemuoi.jpg">
+                    <div class="food-info">
+                        <h3>Cà phê muối</h3>
+                        <p>Cà phê đậm đà với lớp kem muối</p>
+                        <div class="food-footer">
+                            <span class="price">15.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Cà phê muối', 15000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="img/campucino.jpg">
+                    <div class="food-info">
+                        <h3>Cappuccino</h3>
+                        <p>Sự kết hợp espresso đậm, sữa nóng và bọt sữa mịn </p>
+                        <div class="food-footer">
+                            <span class="price">25.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Cà phê muối', 15000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <img src="img/caphesua.jpg">
+                    <div class="food-info">
+                        <h3>Cà phê sữa</h3>
+                        <p>Hòa quyện giữa cà phê rang đậm và sữa đặc béo nhẹ </p>
+                        <div class="food-footer">
+                            <span class="price">15.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Cà phê muối', 15000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <img src="img/capheden.jpg">
+                    <div class="food-info">
+                        <h3>Cà phê đen</h3>
+                        <p>Từ những hạt cà phê rang đậm, chiết xuất nguyên chất</p>
+                        <div class="food-footer">
+                            <span class="price">15.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Cà phê sữa', 15000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tra" class="category-content">
+                <div class="category-title">Trà & Soda</div>
+                <div class="food-card">
+                    <img src="img/tratraicay.jpg">
+                    <div class="food-info">
+                        <h3>Trà trái cây</h3>
+                        <p>Trà xanh kết hợp trái cây tươi</p>
+                        <div class="food-footer">
+                            <span class="price">25.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Trà trái cây', 25000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <img src="img/trasuavietquat.jpg">
+                    <div class="food-info">
+                        <h3>Trà sữa việt quất </h3>
+                        <p>Từ nền trà thơm dịu kết hợp sữa béo mịn, hòa cùng vị việt quất đặc trưng</p>
+                        <div class="food-footer">
+                            <span class="price">25.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Trà trái cây', 25000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <img src="img/trasuadau.jpg">
+                    <div class="food-info">
+                        <h3>Trà sữa dâu </h3>
+                        <p>Từ trà thơm dịu kết hợp sữa béo mịn, hòa cùng siro dâu và cơm dâu tươi </p>
+                        <div class="food-footer">
+                            <span class="price">25.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Trà trái cây', 25000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <img src="img/sodabacha.jpg">
+                    <div class="food-info">
+                        <h3>Soda bạc hà </h3>
+                        <p>Kết hợp soda sủi bọt cùng siro bạc hà thơm mát</p>
+                        <div class="food-footer">
+                            <span class="price">25.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Trà trái cây', 25000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="goi" class="category-content">
+                <div class="category-title">Gói không gian</div>
+                <div class="food-card">
+                    <img src="img/phonghocnho.jpg">
+                    <div class="food-info">
+                        <h3>Gói theo giờ </h3>
+                        <p>25k/30k/40k theo giờ - Linh động cho mọi nhu cầu</p>
+                        <div class="food-footer">
+                            <span class="price">25.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Gói ngày', 120000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="img/phonghocnho.jpg">
+                    <div class="food-info">
+                        <h3>Gói theo ngày </h3>
+                        <p>120k cho cả ngày - Thoải mái học tập</p>
+                        <div class="food-footer">
+                            <span class="price">120.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Gói ngày', 120000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <img src="img/phonghocnho.jpg">
+                    <div class="food-info">
+                        <h3>Gói 20h </h3>
+                        <p>450k cho 20 giờ - Tiết kiệm hơn</p>
+                        <div class="food-footer">
+                            <span class="price">450.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Gói ngày', 120000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <img src="img/phonghocnho.jpg">
+                    <div class="food-info">
+                        <h3>Gói tháng</h3>
+                        <p>900k cho cả tháng - Siêu tiết kiệm</p>
+                        <div class="food-footer">
+                            <span class="price">900.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Gói ngày', 120000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="combo" class="category-content">
+                <div class="category-title">Combo & Phòng họp</div>
+                <div class="food-card">
+                    <img src="img/phonghoclon.jpg">
+                    <div class="food-info">
+                        <h3>Phòng họp lớn</h3>
+                        <p>100k/giờ + 2 nước - Phòng họp nhóm rộng rãi</p>
+                        <div class="food-footer">
+                            <span class="price">100.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Phòng họp lớn', 100000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <img src="img/phonghoclon.jpg">
+                    <div class="food-info">
+                        <h3>Phòng học nhỏ</h3>
+                        <p>80k/giờ + 1 nước - Phòng riêng thoải mái</p>
+                        <div class="food-footer">
+                            <span class="price">80.000đ</span>
+                            <button class="btn-add" onclick="addToCart('Phòng họp lớn', 100000)">+ Thêm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer-info">
+            <p><strong>Thông tin liên hệ</strong></p>
+            <p><i class="fas fa-envelope"></i> nestworkcaffe@gmail.com</p>
+            <p><i class="fas fa-phone-alt"></i> 0123.456.789</p>
+            <p><i class="fas fa-map-marker-alt"></i> 123 Khâm Thiên, Đống Đa, Hà Nội</p>
+        </footer>
+
+        <button class="cart-float" onclick="toggleCart(true)">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="badge" id="cartCount">0</span>
+        </button>
+
+        <div class="cart-modal" id="cartModal">
+            <div class="cart-content">
+                <div class="cart-header">
+                    <h2>Giỏ hàng của bạn</h2>
+                    <span class="close-cart" onclick="toggleCart(false)">&times;</span>
+                </div>
+                <div id="cartItemsList"></div>
+                <div class="cart-summary">
+                    <div class="summary-line">
+                        <span>Tổng cộng:</span>
+                        <span id="totalPrice" style="color:#009b3e">0đ</span>
+                    </div>
+                    <input type="number" class="table-input" id="tableNumber" placeholder="Nhập số bàn của bạn...">
+                    <button class="btn-order" onclick="placeOrder()">XÁC NHẬN ĐẶT MÓN</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function openTab(evt, tabName) {
+            document.querySelectorAll(".category-content").forEach(c => c.classList.remove("active"));
+            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            window.scrollTo(0, 0);
+        }
+
+        function addToCart(name, price) {
+            cart.push({ id: Date.now(), name, price });
+            updateCartUI();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartCount').innerText = cart.length;
+            const list = document.getElementById('cartItemsList');
+            const totalElem = document.getElementById('totalPrice');
+            list.innerHTML = "";
+            let total = 0;
+            if (cart.length === 0) {
+                list.innerHTML = "<p style='text-align:center; color:#888; padding:20px;'>Chưa có món nào trong giỏ</p>";
+            }
+            cart.forEach(item => {
+                total += item.price;
+                list.innerHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <h4>${item.name}</h4>
+                            <span>${item.price.toLocaleString()}đ</span>
+                        </div>
+                        <button class="btn-remove" onclick="removeFromCart(${item.id})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>`;
+            });
+            totalElem.innerText = total.toLocaleString() + "đ";
+        }
+
+        function toggleCart(show) {
+            document.getElementById('cartModal').style.display = show ? 'flex' : 'none';
+        }
+
+        function searchFood() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.food-card').forEach(card => {
+                let name = card.querySelector('h3').innerText.toLowerCase();
+                card.style.display = name.includes(input) ? "flex" : "none";
+            });
+        }
+
+        function placeOrder() {
+            const tableNum = document.getElementById('tableNumber').value;
+            if (cart.length === 0) return alert("Giỏ hàng trống!");
+            if (!tableNum) return alert("Vui lòng nhập số bàn!");
+            alert(`🎉 Đặt hàng thành công!\nSố bàn: ${tableNum}\nTổng tiền: ${document.getElementById('totalPrice').innerText}\nNhân viên nestWork sẽ phục vụ bạn ngay!`);
+            cart = [];
+            document.getElementById('tableNumber').value = "";
+            updateCartUI();
+            toggleCart(false);
+        }
+    </script>
+</body>
+</html>
